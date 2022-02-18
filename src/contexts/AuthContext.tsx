@@ -84,12 +84,11 @@ const AuthProvider = ({ children } : Props) => {
         if (access_token) {
             const {user_name, authorities} = jwtDecode(access_token) as TokenData;
             setUser({email: user_name, authorities});
-            if (isAuthenticated()) {
-                navigate("/painel");
-            } else {
+            if (!isAuthenticated() || hasAnyRoles(["ROLE_USER"])) {
                 clearStorage();
                 navigate("/auth/login");
-            }
+                toast.error("Você não tem permissão para acessar esta página");
+            } 
         }
     } , [navigate])
 

@@ -1,16 +1,19 @@
 $pagination-border-radius:50%;
+
+
 $breadcrumb-divider: quote(">");
 $breadcrumb-bg: #FFFFFF;
-
-$body-bg : #c9c9c9;
-
-$navbar-light-color:                rgba(#192964, .8);
-$navbar-light-hover-color:          rgba(#275e4d, .7);
-$navbar-light-active-color:         rgba(#275e4d, .9);
-
 $breadcrumb-padding-y:              1rem;
 $breadcrumb-padding-x:              2rem;
 $breadcrumb-border-radius:          5px;
 
+$body-bg : #c9c9c9;
+
+$navbar-light-color:                rgba(#192964, .8);
+$navbar-light-hover-color:          rgba(#0fdfc3, .7);
+$navbar-light-active-color:         rgba(#ff9100, .9);
+$navbar-padding-x:                  2rem;
+
+
 @import '~bootstrap/scss/bootstrap';
-@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/css/all.css';

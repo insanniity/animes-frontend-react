@@ -1,5 +1,4 @@
-import {AuthContext, useAuth} from "contexts/AuthContext";
-import { useContext } from "react";
+import { useAuth } from "contexts/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 import { Role } from "types/auth";
 
@@ -9,7 +8,6 @@ type Props = {
 
 const HasPermissao = ({role} : Props) => {
     const { hasAnyRoles } = useAuth();
-
     if(role && role.length > 0 && hasAnyRoles(role)){
         return <Outlet/>
     }else{

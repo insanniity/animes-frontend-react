@@ -2,8 +2,8 @@ import axios, { AxiosRequestConfig } from "axios";
 import qs from "qs";
 import { getAuthData } from "./storage";
 
-const CLIENT_ID = process.env.REACT_APP_CLIENT_ID ?? 'sistema-multitecnica';
-const CLIENT_SECRET= process.env.REACT_APP_CLIENT_SECRET ?? 'sistema-multitecnica123';
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID ?? 'animes';
+const CLIENT_SECRET= process.env.REACT_APP_CLIENT_SECRET ?? 'animes123';
 const BASE_URL = process.env.REACT_APP_BASE_URL ?? 'http://localhost:8080/api/v1';
 
 type LoginData = {

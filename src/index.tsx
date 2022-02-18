@@ -4,11 +4,12 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import App from './App';
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
         <App />
         <ToastContainer 
           position="top-right"
@@ -22,8 +23,8 @@ ReactDOM.render(
           draggable
           pauseOnHover
         />
-      </BrowserRouter>      
-    </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>      
   </React.StrictMode>,
   document.getElementById('root')
 );

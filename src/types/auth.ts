@@ -4,7 +4,7 @@ export type TokenData = {
     authorities: Role[];
 }
 
-export type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
+export type Role = 'ROLE_USER' | 'ROLE_ADMIN';
 
 
 export type LoginResponse={
