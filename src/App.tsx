@@ -5,6 +5,7 @@ import PainelLayout from 'components/painelLayout';
 import Login from 'pages/auth/login';
 import HasPermissao from 'pages/painel';
 import Animes from 'pages/painel/animes';
+import AddAnime from 'pages/painel/animes/add';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 
@@ -24,6 +25,7 @@ const App = () => {
         <Route index element={<Navigate to={'/painel/animes'} />} />
         <Route path="animes" element={<HasPermissao role={['ROLE_ADMIN']} />} >
           <Route index element={<Animes />} />
+          <Route path="add" element={<AddAnime />} />
         </Route>
         {/* <Route path="selecionar-data" element={<HasPermissao role={['ROLE_OPERATOR']} />} >
           <Route index element={<SelectData />} />

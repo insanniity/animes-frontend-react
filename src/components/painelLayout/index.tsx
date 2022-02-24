@@ -20,7 +20,7 @@ const PainelLayout = () => {
     return (
         <>  
             <MyHeader />
-            <Container fluid className="mt-3 px-5">
+            <Container fluid className="mt-4 px-5 mb-5">
                 <Outlet />
             </Container>
         </>

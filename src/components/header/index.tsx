@@ -7,7 +7,7 @@ const MyHeader = () => {
     const { signOut } = useAuth();
 
     return(
-        <Navbar variant="light" bg="light" expand="lg" className="shadow">
+        <Navbar variant="light" bg="light" expand="lg" className="shadow-sm">
             <Container fluid>
                 <Navbar.Brand href="/painel">
                     <img

@@ -7,7 +7,7 @@ type Props ={
 
 const MyBreadcrumbs = ({controller, action}:Props) => {
     return(
-        <Breadcrumb className="shadow">
+        <Breadcrumb className="shadow-sm">
             <Breadcrumb.Item>{controller}</Breadcrumb.Item>
             <Breadcrumb.Item active>{action}</Breadcrumb.Item>
         </Breadcrumb>

@@ -5,6 +5,6 @@ export type SpringPage<T> ={
     totalPages:number;
     size: number;
     first: boolean;
-    numberOfElements?: number;
+    numberOfElements: number;
     empty:boolean;
 }

@@ -14,6 +14,10 @@ $navbar-light-hover-color:          rgba(#0fdfc3, .7);
 $navbar-light-active-color:         rgba(#ff9100, .9);
 $navbar-padding-x:                  2rem;
 
+$input-bg:                              rgb(250, 249, 249);
+$input-border-color:                    rgb(129, 129, 129);
+
+$pagination-border-radius:              0;
 
 @import '~bootstrap/scss/bootstrap';
 @import '@fortawesome/fontawesome-free/css/all.css';
