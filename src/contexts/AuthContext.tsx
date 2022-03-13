@@ -3,8 +3,8 @@ import jwtDecode from "jwt-decode";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { API } from "services/api";
 import { LoginResponse, Role, TokenData } from "types/auth";
-import { makeRequestLogin } from "utils/requests";
 import { clearStorage, getAuthData, saveAuthData } from "utils/storage";
 
 type Props = {
@@ -55,8 +55,8 @@ const AuthProvider = ({ children } : Props) => {
         return false;
     }
 
-    const signIn = async ({username, password}:LoginState) => {        
-        makeRequestLogin({username, password})
+    const signIn = async ({username, password}:LoginState) => {  
+        API.login({username, password})
             .then((res: AxiosResponse<LoginResponse>)=>{
                 saveAuthData(res.data);     
                 navigate("/painel");        

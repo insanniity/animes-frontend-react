@@ -1,35 +1,59 @@
 import { AxiosRequestConfig } from "axios";
 import MyBreadcrumbs from "components/breadcrumbs";
+import ActionButtons from "components/buttons";
 import MyCard from "components/card";
+import Table from "components/tables";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Col, Row, Spinner } from "react-bootstrap";
+import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AnimeService } from "services/animes";
 import { Anime } from "types/anime";
 import { SpringPage } from "types/springpage";
-import { AnimeEmBranco } from "utils/blankFactory";
-import { makeRequest } from "utils/requests";
-import ReactPaginate from "react-paginate";
 
 const Animes = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const [animes, setAnimes] = useState<SpringPage<Anime>>(AnimeEmBranco);
+    const [animes, setAnimes] = useState<SpringPage<Anime>>();
     const navigate = useNavigate();
     const [pageCount, setPageCount] = useState(0);
     const itemsPerPage = 10;
 
+    const handleEdit = (id: number) => {
+        navigate(`/painel/animes/edit/${id}`);
+    }
+
+    const handleDelete = (id: number) => {
+        const confirm = window.confirm("Deseja realmente excluir este usuário?");
+        setIsLoading(true);
+        if(confirm) {      
+        AnimeService.delete(id)
+            .then((res) => {
+                toast.success("Administrador deletado com sucesso!");
+            })
+            .catch((err) => { toast.error(err.response.data.message); }) 
+            .finally(() => {setIsLoading(false);});         
+            navigate(`/painel/animes`);
+        }
+    }
+
+    const columns = [
+        {Header: '#',accessor: 'id'},
+        {Header: 'Nome',accessor:  'title'},
+        {Header: 'Nota',accessor: 'rating'},
+        {Header: 'Avaliações',accessor: 'count'},
+        {Header: 'Ações', accessor:(originalRow:any) => <ActionButtons handleEdit={() => handleEdit(originalRow.id)} handleDelete={() => handleDelete(originalRow.id)}  />}
+    ];
+
     const getAnimes = useCallback(() => {
         setIsLoading(true);
         const params: AxiosRequestConfig = {
-            method: "GET",
-            url: `/animes`,
-            withCredentials: true,
             params: {
                 page: pageCount,
                 size: itemsPerPage
             }
         }
-        makeRequest(params)
+        AnimeService.findAll(params)
             .then((response) => {
                 setAnimes(response.data);
             })
@@ -45,62 +69,34 @@ const Animes = () => {
 
     const handlePageClick = (event:any) => {
         setPageCount(event.selected);
-        console.log(event);
     };
 
 
     return(
         <>
             <MyBreadcrumbs controller="Animes" action="Lista"/>
-                <MyCard>
-                    <div className="row mb-2">
-                        <Col lg={6} sm={12} className="text-md-start">
-                            <h1>Lista de animes</h1>
-                        </Col>
-                        <Col lg={{span: 2, offset: 4}} sm={12} className="text-md-end my-3 my-md-0">
-                            <Button variant="success" size="lg" className="mr-2 w-100" style={{width: 150}} onClick={() => navigate('/painel/animes/add')}>
-                                <i className="fas fa-plus me-2"></i>
-                                Novo
-                            </Button>
-                        </Col>
-                    </div>
-                    {isLoading ?  
-                        <Row className="text-cente justify-content-center">
-                            <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>
-                        </Row> 
-                        :
-                        <table className="table table-striped table-hover fs-6 table-responsive">
-                            <thead>
-                            <tr>
-                                <th className="d-none d-md-block">#</th>
-                                <th>Nome</th>
-                                <th>Nota</th>
-                                <th className="d-none d-md-block">Avaliações</th>
-                                <th>Ações</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {animes.content.map((anime: Anime) => (
-                                <tr key={anime.id}>
-                                    <th scope="row" className="d-none d-md-table-cell">{anime.id}</th>
-                                    <td>{anime.title}</td>
-                                    <td>{anime.rating}</td>
-                                    <td className="d-none d-md-table-cell">{anime.count}</td>
-                                    <td>
-                                        <button className="btn btn-primary ms-2">
-                                            <i className="fas fa-edit me-2"></i>
-                                            Editar
-                                        </button>
-                                        <button className="btn btn-danger ms-2 mt-2 mt-md-0">
-                                            <i className="fas fa-trash me-2"></i>
-                                            Excluir
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    }
+            <MyCard>
+                <div className="row mb-2">
+                    <Col lg={6} sm={12} className="text-md-start">
+                        <h1>Lista de animes</h1>
+                    </Col>
+                    <Col lg={{span: 2, offset: 4}} sm={12} className="text-md-end my-3 my-md-0">
+                        <Button variant="success" size="lg" className="mr-2 w-100" style={{width: 150}} onClick={() => navigate('/painel/animes/add')}>
+                            <i className="fas fa-plus me-2"></i>
+                            Novo
+                        </Button>
+                    </Col>
+                </div>
+                {isLoading ?  
+                    <Row className="text-cente justify-content-center">
+                        <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>
+                    </Row> 
+                    :   
+                    animes && <Table columns={columns} data={animes.content} />
+                                    
+                }
+                {
+                    animes &&  
                     <ReactPaginate
                         breakLabel="..."
                         nextLabel=">"
@@ -121,7 +117,8 @@ const Animes = () => {
                         disabledClassName="disabled"
                         renderOnZeroPageCount={() => null}
                     />
-                </MyCard>
+                }
+            </MyCard>
         </>
     )
 }

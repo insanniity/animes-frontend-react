@@ -6,7 +6,7 @@ import { Row, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { makeRequest } from "utils/requests";
+import { AnimeService } from "services/animes";
 
 type FormData = {
     titulo: string;
@@ -22,22 +22,19 @@ const AddAnime = () => {
     const saveAnime = (data: FormData) => {
         setIsLoading(true);
         const params: AxiosRequestConfig = {
-            method: "POST",
-            url: `/animes`,
-            withCredentials: true,
             data: {
                 title: data.titulo,
                 image: data.image,
                 description: data.descricao
             }
         }
-        makeRequest(params)
-        .then((response) => {
-            toast.success("Anime cadastrado com sucesso!");
-            navigate("/painel/animes");
-        }).catch((error) => {
-            toast.error(error.response.data);
-        }).finally(() => setIsLoading(false));
+        AnimeService.create(params)
+            .then((response) => {
+                toast.success("Anime cadastrado com sucesso!");
+                navigate("/painel/animes");
+            }).catch((error) => {
+                toast.error(error.response.data);
+            }).finally(() => setIsLoading(false));
     }
 
     const onSubmit = (data: FormData) => {
